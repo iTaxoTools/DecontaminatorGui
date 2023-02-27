@@ -16,9 +16,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
 
-"""Program globals"""
+from typing import NamedTuple
 
-from . import model, resources, skin
-from .tasks import tasks
+from ..model import (
+    BulkSequencesModel, DecontaminateModel, DereplicateModel, Item,
+    SequenceModel, TaskModel, VersusAllModel, VersusReferenceModel)
+from ..view import (
+    BulkSequencesView, DecontaminateView, DereplicateView, SequenceView,
+    TaskView, VersusAllView, VersusReferenceView)
 
-title = 'TaxI2.1'
+
+class Task(NamedTuple):
+    title: str
+    description: str
+    model: TaskModel
+    view: TaskView
+
+
+tasks = [
+    Task('Versus All', 'Analyze distances within a dataset', VersusAllModel, VersusAllView),
+    Task('Versus Reference', 'Compare distances to another dataset', VersusReferenceModel, VersusReferenceView),
+    Task('Dereplicate', 'Detect similar sequences within a dataset', DereplicateModel, DereplicateView),
+    Task('Decontaminate', 'Detect sequences close to another dataset', DecontaminateModel, DecontaminateView),
+]

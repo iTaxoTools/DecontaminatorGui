@@ -26,7 +26,7 @@ from ..tasks import versus_all
 from ..model import Item, ItemModel, Object
 from ..types import Notification, InputFile, PairwiseScore, DistanceMetric, AlignmentMode, StatisticsGroup, VersusAllSubtask
 from ..utility import EnumObject, Property, Instance, human_readable_seconds
-from .common import Task
+from .common import TaskModel
 from .sequence import SequenceModel2
 from .input_file import InputFileModel
 from .partition import PartitionModel
@@ -64,7 +64,7 @@ class StatisticsGroups(EnumObject):
     enum = StatisticsGroup
 
 
-class VersusAllModel(Task):
+class VersusAllModel(TaskModel):
     task_name = 'Versus All'
 
     perform_species = Property(bool, False)

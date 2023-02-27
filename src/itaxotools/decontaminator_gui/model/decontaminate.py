@@ -26,7 +26,7 @@ from ..tasks import decontaminate
 from ..model import Item, ItemModel, Object
 from ..types import DecontaminateMode, Notification, InputFile, PairwiseScore, DistanceMetric, AlignmentMode, StatisticsGroup, DecontaminateSubtask
 from ..utility import EnumObject, Property, Instance, Binder, human_readable_seconds
-from .common import Task
+from .common import TaskModel
 from .sequence import SequenceModel2
 from .input_file import InputFileModel
 from .partition import PartitionModel
@@ -52,7 +52,7 @@ class StatisticsGroups(EnumObject):
     enum = StatisticsGroup
 
 
-class DecontaminateModel(Task):
+class DecontaminateModel(TaskModel):
     task_name = 'Decontaminate'
 
     decontaminate_mode = Property(DecontaminateMode, DecontaminateMode.DECONT)

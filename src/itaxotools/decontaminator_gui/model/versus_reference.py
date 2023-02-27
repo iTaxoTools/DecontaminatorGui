@@ -26,7 +26,7 @@ from ..tasks import versus_reference
 from ..model import Item, ItemModel, Object
 from ..types import Notification, InputFile, PairwiseScore, DistanceMetric, AlignmentMode, StatisticsGroup, VersusReferenceSubtask
 from ..utility import EnumObject, Property, Instance, human_readable_seconds
-from .common import Task
+from .common import TaskModel
 from .sequence import SequenceModel2
 from .input_file import InputFileModel
 
@@ -59,7 +59,7 @@ class DistanceMetrics(EnumObject):
         ]
 
 
-class VersusReferenceModel(Task):
+class VersusReferenceModel(TaskModel):
     task_name = 'Versus Reference'
 
     input_data = Property(SequenceModel2, None)

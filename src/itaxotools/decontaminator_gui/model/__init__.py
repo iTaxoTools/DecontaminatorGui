@@ -18,7 +18,7 @@
 
 
 from .bulk_sequences import BulkSequencesModel, SequenceListModel
-from .common import Group, Item, ItemModel, Object, Task
+from .common import Group, Item, ItemModel, Object, TaskModel
 from .decontaminate import DecontaminateModel
 from .dereplicate import DereplicateModel
 from .sequence import SequenceModel, SequenceModel2

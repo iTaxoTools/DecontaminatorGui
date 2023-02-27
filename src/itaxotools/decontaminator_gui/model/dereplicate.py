@@ -26,7 +26,7 @@ from ..tasks import dereplicate
 from ..model import Item, ItemModel, Object
 from ..types import Notification, InputFile, PairwiseScore, DistanceMetric, AlignmentMode, StatisticsGroup, DereplicateSubtask
 from ..utility import EnumObject, Property, Instance, Binder, human_readable_seconds
-from .common import Task
+from .common import TaskModel
 from .sequence import SequenceModel2
 from .input_file import InputFileModel
 from .partition import PartitionModel
@@ -52,7 +52,7 @@ class StatisticsGroups(EnumObject):
     enum = StatisticsGroup
 
 
-class DereplicateModel(Task):
+class DereplicateModel(TaskModel):
     task_name = 'Dereplicate'
 
     input_sequences = Property(SequenceModel2, None)

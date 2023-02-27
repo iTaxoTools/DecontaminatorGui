@@ -57,7 +57,7 @@ class Group(Object):
     pass
 
 
-class Task(Object):
+class TaskModel(Object):
     task_name = 'Task'
 
     notification = QtCore.Signal(Notification)

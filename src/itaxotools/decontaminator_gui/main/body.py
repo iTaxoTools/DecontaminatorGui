@@ -22,7 +22,7 @@ from .. import app
 from ..utility import Binder
 from ..model import (
     BulkSequencesModel, DecontaminateModel, DereplicateModel, Item,
-    SequenceModel, Task, VersusAllModel, VersusReferenceModel)
+    SequenceModel, TaskModel, VersusAllModel, VersusReferenceModel)
 from ..view import (
     BulkSequencesView, DecontaminateView, DereplicateView, SequenceView,
     TaskView, VersusAllView, VersusReferenceView)
@@ -50,13 +50,8 @@ class Body(QtWidgets.QStackedWidget):
         self.dashboard = Dashboard(self)
         self.addWidget(self.dashboard)
 
-        self.addView(Task, TaskView)
-        self.addView(SequenceModel, SequenceView)
-        self.addView(BulkSequencesModel, BulkSequencesView)
-        self.addView(DereplicateModel, DereplicateView)
-        self.addView(DecontaminateModel, DecontaminateView)
-        self.addView(VersusAllModel, VersusAllView)
-        self.addView(VersusReferenceModel, VersusReferenceView)
+        for task in app.tasks:
+            self.addView(task.model, task.view)
 
         self.showDashboard()
 
@@ -82,11 +77,11 @@ class Body(QtWidgets.QStackedWidget):
         view.setObject(object)
         self.setCurrentWidget(area)
         area.ensureVisible(0, 0)
-        if isinstance(object, Task):
+        if isinstance(object, TaskModel):
             self.bindTask(object, view)
         return True
 
-    def bindTask(self, task: Task, view: TaskView):
+    def bindTask(self, task: TaskModel, view: TaskView):
         self.binder.unbind_all()
         self.actions.open.setEnabled(False)
 
