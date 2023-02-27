@@ -4,11 +4,11 @@
 [ ! "$CODESIGN_IDENTITY" ] && CODESIGN_IDENTITY="UNKNOWN"
 
 # program specifics
-APP_NAME="Taxi2.1"
-APP_IDENTIFIER="org.itaxotools.taxi2.gui"
-APP_SCRIPT="../taxi2.py"
+APP_NAME="Decontaminator"
+APP_IDENTIFIER="org.itaxotools.decontaminator.gui"
+APP_SCRIPT="../decontaminator.py"
 APP_ENTITLEMENTS="data/entitlements.plist"
-APP_ICON="data/taxi2.icns"
+APP_ICON="data/decontaminator.icns"
 
 
 # expand and export

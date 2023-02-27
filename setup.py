@@ -1,4 +1,4 @@
-"""The setup module for Taxi3Gui"""
+"""The setup module for DecontaminatorGui"""
 
 # Always prefer setuptools over distutils
 from setuptools import setup, find_namespace_packages
@@ -10,9 +10,9 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 
 setup(
-    name='taxi-gui',
-    version='0.1.0',
-    description='A Qt GUI for Taxi2',
+    name='decontaminator-gui',
+    version='0.0.1',
+    description='A Qt GUI for Decontaminator',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Patmanidis Stefanos',
@@ -24,7 +24,6 @@ setup(
     ),
     python_requires='>=3.10.2, <4',
     install_requires=[
-        'taxi2==2.1.0',
         'itaxotools-common==0.2.4',
         'pyside6>=6.1.1',
     ],
@@ -37,7 +36,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'taxi-gui = itaxotools.taxi_gui:run',
+            'decontaminator-gui = itaxotools.decontaminator_gui:run',
         ]
     },
     classifiers=[
