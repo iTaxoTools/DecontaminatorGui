@@ -21,7 +21,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from itaxotools.common.utility import override
 
 from .. import app
-from ..model import DecontaminateModel, DereplicateModel, TaskModel, VersusAllModel, VersusReferenceModel
+from ..model.common import TaskModel
 
 
 class DashItem(QtWidgets.QAbstractButton):

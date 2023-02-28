@@ -16,6 +16,17 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
 
-from ..model.common import ItemModel
 
-items = ItemModel()
+def initialize():
+    import itaxotools
+    itaxotools.progress_handler('Initializing...')
+
+
+def decontamination(**kwargs):
+    import itaxotools
+    itaxotools.progress_handler('Executing...')
+
+    for k, v in kwargs:
+        print(f'{k} = {v}')
+
+    return 42

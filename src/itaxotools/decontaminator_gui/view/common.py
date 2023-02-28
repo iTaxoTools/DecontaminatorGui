@@ -23,7 +23,7 @@ from pathlib import Path
 from itaxotools.common.utility import AttrDict, override
 
 from .. import app
-from ..model import BulkSequencesModel, Item, ItemModel, Object, SequenceModel
+from ..model.common import Item, ItemModel, Object
 from ..types import ComparisonMode, Notification, PairwiseComparisonConfig
 from ..utility import Guard, Binder
 
@@ -315,62 +315,6 @@ class CardCustom(QtWidgets.QFrame):
             top = second.geometry().top()
             middle = (bottom + top) / 2
             painter.drawLine(left, middle, right, middle)
-
-
-class SequenceSelector(Card):
-
-    sequenceChanged = QtCore.Signal(Item)
-
-    def __init__(self, text, parent=None, model=app.model.items):
-        super().__init__(parent)
-
-        label = QtWidgets.QLabel(text)
-        label.setStyleSheet("""font-size: 16px;""")
-
-        combo = NoWheelComboBox()
-        combo.setFixedWidth(180)
-        combo.setModel(model)
-        combo.setRootModelIndex(model.sequences_index)
-        combo.currentIndexChanged.connect(self.handleIndexChanged)
-
-        browse = QtWidgets.QPushButton('Import')
-        browse.clicked.connect(self.handleImport)
-
-        layout = QtWidgets.QHBoxLayout()
-        layout.addWidget(label, 1)
-        layout.addWidget(combo)
-        layout.addWidget(browse)
-        self.addLayout(layout)
-
-        self.combo = combo
-
-    def handleIndexChanged(self, row):
-        if row < 0:
-            item = None
-        else:
-            model = self.combo.model()
-            parent = model.sequences_index
-            index = model.index(row, 0, parent)
-            item = index.data(ItemModel.ItemRole)
-        self.sequenceChanged.emit(item)
-
-    def setSequenceItem(self, item):
-        row = item.row if item else -1
-        self.combo.setCurrentIndex(row)
-
-    def handleImport(self, *args):
-        filenames, _ = QtWidgets.QFileDialog.getOpenFileNames(
-            self.window(), f'{app.title} - Import Sequence(s)')
-        if not filenames:
-            return
-        if len(filenames) == 1:
-            path = Path(filenames[0])
-            index = app.model.items.add_sequence(SequenceModel(path), focus=False)
-        else:
-            paths = [Path(filename) for filename in filenames]
-            index = app.model.items.add_sequence(BulkSequencesModel(paths), focus=False)
-        item = index.data(ItemModel.ItemRole)
-        self.setSequenceItem(item)
 
 
 class ComparisonModeSelector(Card):

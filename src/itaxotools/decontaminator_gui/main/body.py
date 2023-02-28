@@ -20,12 +20,8 @@ from PySide6 import QtCore, QtWidgets
 
 from .. import app
 from ..utility import Binder
-from ..model import (
-    BulkSequencesModel, DecontaminateModel, DereplicateModel, Item,
-    SequenceModel, TaskModel, VersusAllModel, VersusReferenceModel)
-from ..view import (
-    BulkSequencesView, DecontaminateView, DereplicateView, SequenceView,
-    TaskView, VersusAllView, VersusReferenceView)
+from ..model.common import Item, TaskModel
+from ..view.common import TaskView
 from .dashboard import Dashboard
 
 

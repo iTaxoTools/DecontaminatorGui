@@ -18,13 +18,10 @@
 
 from typing import NamedTuple
 
-from ..model import (
-    BulkSequencesModel, DecontaminateModel, DereplicateModel, Item,
-    SequenceModel, TaskModel, VersusAllModel, VersusReferenceModel)
-from ..view import (
-    BulkSequencesView, DecontaminateView, DereplicateView, SequenceView,
-    TaskView, VersusAllView, VersusReferenceView)
-
+from ..model.common import TaskModel
+from ..view.common import TaskView
+from ..model.decontamination import DecontaminationModel
+from ..view.decontamination import DecontaminationView
 
 class Task(NamedTuple):
     title: str
@@ -34,8 +31,5 @@ class Task(NamedTuple):
 
 
 tasks = [
-    Task('Versus All', 'Analyze distances within a dataset', VersusAllModel, VersusAllView),
-    Task('Versus Reference', 'Compare distances to another dataset', VersusReferenceModel, VersusReferenceView),
-    Task('Dereplicate', 'Detect similar sequences within a dataset', DereplicateModel, DereplicateView),
-    Task('Decontaminate', 'Detect sequences close to another dataset', DecontaminateModel, DecontaminateView),
+    Task('Decontamination', 'Deleting sequences from .ali files', DecontaminationModel, DecontaminationView),
 ]

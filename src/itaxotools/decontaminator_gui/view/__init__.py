@@ -15,11 +15,3 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
-
-from .bulk_sequences import BulkSequencesView
-from .common import Card, ObjectView, TaskView
-from .decontaminate import DecontaminateView
-from .dereplicate import DereplicateView
-from .sequence import SequenceView
-from .versus_all import VersusAllView
-from .versus_reference import VersusReferenceView
