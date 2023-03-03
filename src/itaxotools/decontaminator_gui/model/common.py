@@ -26,6 +26,7 @@ from pathlib import Path
 
 from itaxotools.common.utility import override
 
+from ..io import WriterIO
 from ..threading import ReportProgress, ReportDone, ReportFail, ReportExit, ReportStop, Worker
 from ..types import Notification, Type
 from ..utility import Property, PropertyObject, PropertyRef
@@ -63,6 +64,9 @@ class TaskModel(Object):
     notification = QtCore.Signal(Notification)
     progression = QtCore.Signal(ReportProgress)
 
+    logLine = QtCore.Signal(str)
+    logClear = QtCore.Signal()
+
     ready = Property(bool, True)
     busy = Property(bool, False)
     done = Property(bool, False)
@@ -82,6 +86,10 @@ class TaskModel(Object):
         self.worker.error.connect(self.onError)
         self.worker.stop.connect(self.onStop)
         self.worker.progress.connect(self.onProgress)
+
+        self.textLogIO = WriterIO(self.logLine.emit)
+        self.worker.streamOut.add(self.textLogIO)
+        self.worker.streamErr.add(self.textLogIO)
 
         for property in self.readyTriggers():
             property.notify.connect(self.checkIfReady)
@@ -124,6 +132,7 @@ class TaskModel(Object):
     def start(self):
         """Slot for starting the task"""
         self.progression.emit(ReportProgress('Preparing for execution...'))
+        self.logClear.emit()
         self.busy = True
 
     def stop(self):

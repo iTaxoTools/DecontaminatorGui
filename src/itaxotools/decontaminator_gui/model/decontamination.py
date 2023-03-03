@@ -57,7 +57,8 @@ class DecontaminationModel(TaskModel):
         self.exec(
             Subtask.Main,
             decontamination.decontamination,
-            input_data=self.input.path,
+            # input_data=self.input.path,
+            dummy=42,
         )
 
     def onDone(self, report):
@@ -66,4 +67,4 @@ class DecontaminationModel(TaskModel):
         if report.id == Subtask.Main:
             self.notification.emit(Notification.Info(f'{self.name} completed successfully!'))
             self.busy = False
-            self.done = True
+            # self.done = True

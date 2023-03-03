@@ -18,15 +18,15 @@
 
 
 def initialize():
-    import itaxotools
-    itaxotools.progress_handler('Initializing...')
+    from itaxotools import decontaminator
 
 
 def decontamination(**kwargs):
-    import itaxotools
-    itaxotools.progress_handler('Executing...')
+    from itaxotools import decontaminator
+    print('Decontamination'.center(60, '-'))
+    print()
 
-    for k, v in kwargs:
+    for k, v in kwargs.items():
         print(f'{k} = {v}')
 
     return 42

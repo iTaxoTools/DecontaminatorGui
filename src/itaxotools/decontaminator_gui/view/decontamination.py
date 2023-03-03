@@ -30,7 +30,7 @@ from .common import Card, CardCustom, NoWheelRadioButton, NoWheelComboBox, GLine
 
 from ..types import ComparisonMode, DecontaminateMode, Notification, DecontaminateMode
 from .common import (
-    Card, ComparisonModeSelector, GLineEdit, GSpinBox, ObjectView)
+    Card, ComparisonModeSelector, GLineEdit, GSpinBox, ObjectView, TextEditLogger)
 
 
 class ItemProxyModel(QtCore.QAbstractProxyModel):
@@ -108,9 +108,6 @@ class ItemProxyModel(QtCore.QAbstractProxyModel):
 
 
 class TitleCard(Card):
-    run = QtCore.Signal()
-    cancel = QtCore.Signal()
-
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -145,7 +142,7 @@ class InputSelector(Card):
     itemChanged = QtCore.Signal(Item)
     addInputFile = QtCore.Signal(Path)
 
-    def __init__(self, text, parent=None, model=app.model.items):
+    def __init__(self, parent=None, model=app.model.items):
         super().__init__(parent)
         self.binder = Binder()
         self._guard = Guard()
@@ -202,11 +199,10 @@ class InputSelector(Card):
         self.itemChanged.emit(item)
 
     def handleBrowse(self, *args):
-        filename, _ = QtWidgets.QFileDialog.getOpenFileName(
-            self.window(), f'{app.title} - Import Sequence File')
+        filename = self.parent().getExistingDirectory('Import Sequence File')
         if not filename:
             return
-        self.addInputFile.emit(Path(filename))
+        self.addInputFile.emit(filename)
 
     def setObject(self, object):
         # Workaround to repaint bugged card line
@@ -232,6 +228,33 @@ class InputSelector(Card):
         self.controls.config.setEnabled(not busy)
 
 
+class LoggerCard(Card):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        title = QtWidgets.QLabel('Progress Logs')
+        title.setStyleSheet("""font-size: 16px;""")
+
+        logger = TextEditLogger()
+
+        layout = QtWidgets.QVBoxLayout()
+        layout.setSpacing(16)
+        layout.addWidget(title)
+        layout.addWidget(logger)
+        self.addLayout(layout)
+
+        self.controls.logger = logger
+
+    def setBusy(self, busy: bool):
+        self.setEnabled(True)
+
+    def append(self, text: str):
+        self.controls.logger.append(text)
+
+    def clear(self):
+        self.controls.logger.clear()
+
+
 class DecontaminationView(TaskView):
 
     def __init__(self, parent=None):
@@ -242,6 +265,7 @@ class DecontaminationView(TaskView):
         self.cards = AttrDict()
         self.cards.title = TitleCard(self)
         self.cards.input = InputSelector(self)
+        self.cards.logger = LoggerCard(self)
 
         layout = QtWidgets.QVBoxLayout()
         for card in self.cards:
@@ -256,6 +280,8 @@ class DecontaminationView(TaskView):
         self.binder.unbind_all()
 
         self.binder.bind(object.notification, self.showNotification)
+        self.binder.bind(object.logLine, self.cards.logger.append)
+        self.binder.bind(object.logClear, self.cards.logger.clear)
 
         self.binder.bind(object.properties.name, self.cards.title.setTitle)
         self.binder.bind(object.properties.busy, self.cards.title.setBusy)
