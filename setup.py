@@ -26,6 +26,9 @@ setup(
     install_requires=[
         'itaxotools-common==0.2.4',
         'pyside6>=6.1.1',
+        'decontaminator',
+        'Genesubsetselector',
+        'SCaFoSpy',
     ],
     extras_require={
         'dev': [
