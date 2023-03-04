@@ -33,6 +33,9 @@ from ..view.length_decontamination import LengthDecontaminationView
 from ..model.scafospy import ScafospyModel
 from ..view.scafospy import ScafospyView
 
+from ..model.gene_subset_selector import GeneSubsetSelectorModel
+from ..view.gene_subset_selector import GeneSubsetSelectorView
+
 from ..model.remove_rename import RemoveRenameModel
 from ..view.remove_rename import RemoveRenameView
 
@@ -48,5 +51,6 @@ tasks = [
     Task('Remove-Rename', 'Delete/rename sequences', RemoveRenameModel, RemoveRenameView),
     Task('Branch Decontamination', 'Delete sequences based on tree branch length', BranchDecontaminationModel, BranchDecontaminationView),
     Task('Length Decontamination', 'Delete sequences with too much noninformation data', LengthDecontaminationModel, LengthDecontaminationView),
+    Task('Gene Subset Selector', 'Selecting subset(s) of genes through different methods.', GeneSubsetSelectorModel, GeneSubsetSelectorView),
     Task('SCaFoSpy', 'Description coming...', ScafospyModel, ScafospyView),
 ]
