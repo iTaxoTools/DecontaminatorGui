@@ -139,93 +139,42 @@ class TitleCard(Card):
 
 
 class InputSelector(Card):
-    itemChanged = QtCore.Signal(Item)
-    addInputFile = QtCore.Signal(Path)
+    changedPath = QtCore.Signal(Path)
 
-    def __init__(self, parent=None, model=app.model.items):
+    def __init__(self, parent=None):
         super().__init__(parent)
-        self.binder = Binder()
-        self._guard = Guard()
-        self.draw(model)
+        self.draw()
 
-    def draw(self, model):
+    def draw(self):
         label = QtWidgets.QLabel('Input directory:')
         label.setStyleSheet("""font-size: 16px;""")
         label.setMinimumWidth(120)
 
-        combo = NoWheelComboBox()
-        combo.currentIndexChanged.connect(self.handleItemChanged)
-        self.set_model(combo, model)
+        edit = QtWidgets.QLineEdit('---')
+        edit.setReadOnly(True)
 
-        wait = NoWheelComboBox()
-        wait.addItem('Scanning file, please wait...')
-        wait.setEnabled(False)
-        wait.setVisible(False)
-
-        browse = QtWidgets.QPushButton('Import')
+        browse = QtWidgets.QPushButton('Browse')
         browse.clicked.connect(self.handleBrowse)
-
-        loading = QtWidgets.QPushButton('Loading')
-        loading.setEnabled(False)
-        loading.setVisible(False)
 
         layout = QtWidgets.QHBoxLayout()
         layout.addWidget(label)
-        layout.addWidget(combo, 1)
-        layout.addWidget(wait, 1)
+        layout.addWidget(edit, 1)
         layout.addWidget(browse)
-        layout.addWidget(loading)
         layout.setSpacing(16)
         self.addLayout(layout)
 
-        self.controls.label = label
-        self.controls.combo = combo
-        self.controls.wait = wait
-        self.controls.browse = browse
-        self.controls.loading = loading
+        self.controls.edit = edit
 
-    def set_model(self, combo, model):
-        proxy_model = ItemProxyModel()
-        proxy_model.setSourceModel(model, model.files)
-        combo.setModel(proxy_model)
-
-    def handleItemChanged(self, row):
-        if self._guard:
-            return
-        if row > 0:
-            item = self.controls.combo.itemData(row, ItemModel.ItemRole)
-        else:
-            item = None
-        self.itemChanged.emit(item)
+    def setPath(self, path):
+        if path is None:
+            path = '---'
+        self.controls.edit.setText(str(path))
 
     def handleBrowse(self, *args):
-        filename = self.parent().getExistingDirectory('Import Sequence File')
-        if not filename:
+        dir = self.parent().getExistingDirectory('Browse Directory')
+        if not dir:
             return
-        self.addInputFile.emit(filename)
-
-    def setObject(self, object):
-        # Workaround to repaint bugged card line
-        QtCore.QTimer.singleShot(10, self.update)
-
-        if object is None:
-            row = 0
-        else:
-            file_item = object.file_item
-            row = file_item.row + 1 if file_item else 0
-        with self._guard:
-            self.controls.combo.setCurrentIndex(row)
-
-        self.binder.unbind_all()
-
-    def setBusy(self, busy: bool):
-        self.setEnabled(True)
-        self.controls.combo.setVisible(not busy)
-        self.controls.wait.setVisible(busy)
-        self.controls.browse.setVisible(not busy)
-        self.controls.loading.setVisible(busy)
-        self.controls.label.setEnabled(not busy)
-        self.controls.config.setEnabled(not busy)
+        self.changedPath.emit(Path(dir))
 
 
 class LoggerCard(Card):
@@ -287,6 +236,9 @@ class DecontaminationView(TaskView):
         self.binder.bind(object.properties.busy, self.cards.title.setBusy)
 
         self.binder.bind(object.properties.editable, self.setEditable)
+
+        self.binder.bind(self.cards.input.changedPath, object.properties.input)
+        self.binder.bind(object.properties.input, self.cards.input.setPath)
 
     def setEditable(self, editable: bool):
         for card in self.cards:

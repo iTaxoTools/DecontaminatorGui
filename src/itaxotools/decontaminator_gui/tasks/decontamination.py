@@ -18,15 +18,26 @@
 
 
 def initialize():
-    from itaxotools import decontaminator
+    from itaxotools.decontaminator.decontamination import __Main__
 
 
-def decontamination(**kwargs):
-    from itaxotools import decontaminator
-    print('Decontamination'.center(60, '-'))
+def execute(**kwargs):
+    from itaxotools.decontaminator.decontamination import __Main__
+    print(' Arguments '.center(60, '-'))
     print()
 
+    argv = ['decontamination']
     for k, v in kwargs.items():
-        print(f'{k} = {v}')
+        print(f'--{k} {v}')
+        argv.append('--' + k)
+        argv.append(v)
+    print()
 
+    print(' Decontamination '.center(60, '-'))
+    print()
+
+    __Main__(argv)
+
+    print()
+    print(' End '.center(60, '-'))
     return 42

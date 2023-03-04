@@ -36,7 +36,7 @@ class Subtask(Enum):
 class DecontaminationModel(TaskModel):
     task_name = 'Decontamination'
 
-    input = Property(InputFileModel, None)
+    input = Property(Path, None)
 
     def __init__(self, name=None):
         super().__init__(name)
@@ -56,9 +56,8 @@ class DecontaminationModel(TaskModel):
         super().start()
         self.exec(
             Subtask.Main,
-            decontamination.decontamination,
-            # input_data=self.input.path,
-            dummy=42,
+            decontamination.execute,
+            dir=str(self.input),
         )
 
     def onDone(self, report):

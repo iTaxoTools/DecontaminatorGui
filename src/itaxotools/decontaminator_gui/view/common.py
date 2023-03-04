@@ -754,6 +754,10 @@ class TextEditLogger(QtWidgets.QPlainTextEdit):
         self.scrollbarLockTimer.setSingleShot(True)
         self.verticalScrollBar().valueChanged.connect(self.checkScrollbar)
 
+        font = QtGui.QFont('Monospace')
+        font.setStyleHint(QtGui.QFont.Monospace)
+        self.setFont(font)
+
     def wheelEvent(self, event):
         super().wheelEvent(event)
         if self.scrollbarAtBottom or self.scrollbarAtTop:
