@@ -21,8 +21,9 @@ from tempfile import TemporaryDirectory
 from shutil import copytree
 from enum import Enum, auto
 
-from ..tasks import decontamination
+from ..tasks import branch_decontamination
 from ..types import Notification
+from ..types.branch_decontamination import Mode, Target
 from ..utility import Property
 from .common import TaskModel
 from .input_file import InputFileModel
@@ -38,9 +39,18 @@ class BranchDecontaminationModel(TaskModel):
 
     input = Property(Path, None)
 
+    mode = Property(Mode, Mode.Terminal)
+    target = Property(Target, Target.Alignment)
+
+    absolute = Property(int, 0)
+    percentile = Property(float, 0.0)
+    quantile = Property(float, 0.0)
+    factor = Property(float, 0.0)
+    tree = Property(Path, None)
+
     def __init__(self, name=None):
         super().__init__(name)
-        self.exec(Subtask.Initialize, decontamination.initialize)
+        self.exec(Subtask.Initialize, branch_decontamination.initialize)
 
     def readyTriggers(self):
         return [
@@ -56,8 +66,15 @@ class BranchDecontaminationModel(TaskModel):
         super().start()
         self.exec(
             Subtask.Main,
-            decontamination.execute,
+            branch_decontamination.execute,
             dir=str(self.input),
+            mode=str(self.mode),
+            target=str(self.target),
+            perc=str(self.percentile),
+            absolute=str(self.absolute),
+            quantile=str(self.quantile),
+            factor=str(self.factor),
+            referencetree=str(self.tree) if self.tree else '',
         )
 
     def onDone(self, report):

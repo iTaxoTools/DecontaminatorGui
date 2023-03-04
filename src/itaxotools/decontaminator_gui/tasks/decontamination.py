@@ -28,9 +28,11 @@ def execute(**kwargs):
 
     argv = ['decontamination']
     for k, v in kwargs.items():
-        print(f'--{k} {v}')
+        print(f'--{k} "{v}"')
         argv.append('--' + k)
         argv.append(v)
+    print()
+    print('argv:', argv)
     print()
 
     print(' Decontamination '.center(60, '-'))

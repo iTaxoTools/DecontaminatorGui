@@ -16,30 +16,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
 
+from enum import Enum, auto
+from typing import NamedTuple
+from dataclasses import dataclass, asdict
+from pathlib import Path
 
-def initialize():
-    from itaxotools.decontaminator.decontamination_branches import __Main__
+from ._type import Type
 
 
-def execute(**kwargs):
-    from itaxotools.decontaminator.decontamination_branches import __Main__
-    print(' Arguments '.center(60, '-'))
-    print()
+class Mode(Enum):
+    Internal = 'internal'
+    Terminal = 'terminal'
 
-    argv = ['decontamination_branches']
-    for k, v in kwargs.items():
-        print(f'--{k} "{v}"')
-        argv.append('--' + k)
-        argv.append(v)
-    print()
-    print('argv:', argv)
-    print()
+    def __str__(self):
+        return self.value
 
-    print(' Branch Decontamination '.center(60, '-'))
-    print()
 
-    __Main__(argv)
+class Target(Enum):
+    Alignment = 'alignment'
+    Tree = 'tree'
+    Both = 'both'
 
-    print()
-    print(' End '.center(60, '-'))
-    return 42
+    def __str__(self):
+        return self.value
