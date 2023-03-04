@@ -119,13 +119,7 @@ class Dashboard(QtWidgets.QFrame):
         layout = QtWidgets.QGridLayout()
 
         for index, task in enumerate(app.tasks):
-            row, column = divmod(index, 2)
-            item = DashItem(
-                task.title,
-                task.description,
-                lambda: self.addTaskIfNew(task.model),
-                self)
-            layout.addWidget(item, row, column)
+            self.drawTaskItem(layout, index, task)
 
         layout.setSpacing(6)
         layout.setColumnStretch(0, 1)
@@ -133,6 +127,15 @@ class Dashboard(QtWidgets.QFrame):
         layout.setRowStretch(5, 1)
         layout.setContentsMargins(6, 6, 6, 6)
         self.setLayout(layout)
+
+    def drawTaskItem(self, layout, index, task):
+        row, column = divmod(index, 2)
+        item = DashItem(
+            task.title,
+            task.description,
+            lambda: self.addTaskIfNew(task.model),
+            self)
+        layout.addWidget(item, row, column)
 
     def addTaskIfNew(self, type: TaskModel):
         index = app.model.items.find_task(type)
