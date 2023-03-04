@@ -21,4 +21,4 @@
 from . import model, resources, skin
 from .tasks import tasks
 
-title = 'TaxI2.1'
+title = 'Decontaminator'
