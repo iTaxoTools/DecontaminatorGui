@@ -41,7 +41,9 @@ class TitleCard(Card):
         title.setStyleSheet("""font-size: 18px; font-weight: bold; """)
 
         description = QtWidgets.QLabel(
-            'Deleting sequences from .ali files.')
+            'Deleting sequences and renaming sequence names from .ali und .fasta files. '
+            'Input directory should contain all necessary .fasta and .ali files and one .log/.txt file containing all commands.'
+            )
         description.setWordWrap(True)
 
         contents = QtWidgets.QVBoxLayout()
@@ -130,7 +132,7 @@ class LoggerCard(Card):
         self.controls.logger.clear()
 
 
-class DecontaminationView(TaskView):
+class RemoveRenameView(TaskView):
 
     def __init__(self, parent=None):
         super().__init__(parent)

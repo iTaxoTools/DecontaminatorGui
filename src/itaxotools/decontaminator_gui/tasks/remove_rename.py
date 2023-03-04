@@ -16,25 +16,28 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
 
-from typing import NamedTuple
 
-from ..model.common import TaskModel
-from ..view.common import TaskView
-
-from ..model.decontamination import DecontaminationModel
-from ..view.decontamination import DecontaminationView
-
-from ..model.remove_rename import RemoveRenameModel
-from ..view.remove_rename import RemoveRenameView
-
-class Task(NamedTuple):
-    title: str
-    description: str
-    model: TaskModel
-    view: TaskView
+def initialize():
+    from itaxotools.decontaminator.remove_rename import __Main__
 
 
-tasks = [
-    Task('Decontamination', 'Deleting sequences from .ali files', DecontaminationModel, DecontaminationView),
-    Task('Remove-Rename', 'Deleting/renaming sequences', RemoveRenameModel, RemoveRenameView),
-]
+def execute(**kwargs):
+    from itaxotools.decontaminator.remove_rename import __Main__
+    print(' Arguments '.center(60, '-'))
+    print()
+
+    argv = ['remove_rename']
+    for k, v in kwargs.items():
+        print(f'--{k} {v}')
+        argv.append('--' + k)
+        argv.append(v)
+    print()
+
+    print(' Remove-Rename '.center(60, '-'))
+    print()
+
+    __Main__(argv)
+
+    print()
+    print(' End '.center(60, '-'))
+    return 42
