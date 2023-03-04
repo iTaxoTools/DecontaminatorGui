@@ -397,16 +397,16 @@ class BranchDecontaminationView(TaskView):
         self.binder.bind(self.cards.target.changedTarget, object.properties.target)
         self.binder.bind(object.properties.target, self.cards.target.setTarget)
 
-        self.binder.bind(self.cards.args.controls.absolute.textEditedSafe, object.properties.absolute, lambda x: str(x))
+        self.binder.bind(self.cards.args.controls.absolute.textEditedSafe, object.properties.absolute, lambda x: int(x))
         self.binder.bind(object.properties.absolute, self.cards.args.controls.absolute.setText, lambda x: str(x))
 
-        self.binder.bind(self.cards.args.controls.percentile.textEditedSafe, object.properties.percentile, lambda x: str(x))
+        self.binder.bind(self.cards.args.controls.percentile.textEditedSafe, object.properties.percentile, lambda x: float(x))
         self.binder.bind(object.properties.percentile, self.cards.args.controls.percentile.setText, lambda x: f'{x:.4f}')
 
-        self.binder.bind(self.cards.args.controls.quantile.textEditedSafe, object.properties.quantile, lambda x: str(x))
+        self.binder.bind(self.cards.args.controls.quantile.textEditedSafe, object.properties.quantile, lambda x: float(x))
         self.binder.bind(object.properties.quantile, self.cards.args.controls.quantile.setText, lambda x: f'{x:.4f}')
 
-        self.binder.bind(self.cards.args.controls.factor.textEditedSafe, object.properties.factor, lambda x: str(x))
+        self.binder.bind(self.cards.args.controls.factor.textEditedSafe, object.properties.factor, lambda x: float(x))
         self.binder.bind(object.properties.factor, self.cards.args.controls.factor.setText, lambda x: f'{x:.4f}')
 
         self.binder.bind(self.cards.tree.changedPath, object.properties.tree)

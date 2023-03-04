@@ -16,21 +16,30 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
 
-from enum import Enum
+
+def initialize():
+    from itaxotools.decontaminator.lengthdecont import __Main__
 
 
-class Mode(Enum):
-    Internal = 'internal'
-    Terminal = 'terminal'
+def execute(**kwargs):
+    from itaxotools.decontaminator.lengthdecont import __Main__
+    print(' Arguments '.center(60, '-'))
+    print()
 
-    def __str__(self):
-        return self.value
+    argv = ['lengthdecont']
+    for k, v in kwargs.items():
+        print(f'--{k} "{v}"')
+        argv.append('--' + k)
+        argv.append(v)
+    print()
+    print('argv:', argv)
+    print()
 
+    print(' Length Decontamination '.center(60, '-'))
+    print()
 
-class Target(Enum):
-    Alignment = 'alignment'
-    Tree = 'tree'
-    Both = 'both'
+    __Main__(argv)
 
-    def __str__(self):
-        return self.value
+    print()
+    print(' End '.center(60, '-'))
+    return 42

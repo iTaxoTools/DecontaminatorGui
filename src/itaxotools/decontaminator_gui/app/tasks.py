@@ -27,6 +27,9 @@ from ..view.decontamination import DecontaminationView
 from ..model.branch_decontamination import BranchDecontaminationModel
 from ..view.branch_decontamination import BranchDecontaminationView
 
+from ..model.length_decontamination import LengthDecontaminationModel
+from ..view.length_decontamination import LengthDecontaminationView
+
 from ..model.remove_rename import RemoveRenameModel
 from ..view.remove_rename import RemoveRenameView
 
@@ -39,6 +42,7 @@ class Task(NamedTuple):
 
 tasks = [
     Task('Decontamination', 'Delete sequences from .ali files', DecontaminationModel, DecontaminationView),
-    Task('Branch Decontamination', 'Delete sequences based on tree branch length', BranchDecontaminationModel, BranchDecontaminationView),
     Task('Remove-Rename', 'Delete/rename sequences', RemoveRenameModel, RemoveRenameView),
+    Task('Branch Decontamination', 'Delete sequences based on tree branch length', BranchDecontaminationModel, BranchDecontaminationView),
+    Task('Length Decontamination', 'Delete sequences with too much noninformation data', LengthDecontaminationModel, LengthDecontaminationView),
 ]

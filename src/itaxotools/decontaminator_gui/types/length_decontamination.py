@@ -20,17 +20,16 @@ from enum import Enum
 
 
 class Mode(Enum):
-    Internal = 'internal'
-    Terminal = 'terminal'
+    Percentage = 'percentage'
+    Absolute = 'absolute'
 
     def __str__(self):
         return self.value
 
 
-class Target(Enum):
-    Alignment = 'alignment'
-    Tree = 'tree'
-    Both = 'both'
+class Symbol(Enum):
+    Nucleotide = 'nucleotide'
+    Protein = 'protein'
 
     def __str__(self):
         return self.value
