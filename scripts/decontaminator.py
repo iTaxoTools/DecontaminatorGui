@@ -1,10 +1,9 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Launch the Taxi2 GUI"""
+"""Launch the Decontaminator GUI"""
 
 import multiprocessing
-import matplotlib
 
 from itaxotools.decontaminator_gui import run
 
