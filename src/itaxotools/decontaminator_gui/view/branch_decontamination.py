@@ -31,7 +31,7 @@ from .common import Card, CardCustom, NoWheelRadioButton, NoWheelComboBox, GLine
 from ..types import ComparisonMode, DecontaminateMode, Notification, DecontaminateMode
 from ..types.branch_decontamination import Mode, Target
 from .common import (
-    Card, ComparisonModeSelector, GLineEdit, GSpinBox, ObjectView, TextEditLogger)
+    Card, ComparisonModeSelector, GLineEdit, GSpinBox, ObjectView, TextEditLogger, Resizer)
 
 
 class TitleCard(Card):
@@ -332,11 +332,12 @@ class LoggerCard(Card):
         title.setStyleSheet("""font-size: 16px;""")
 
         logger = TextEditLogger()
+        resizer = Resizer(logger)
 
         layout = QtWidgets.QVBoxLayout()
         layout.setSpacing(16)
         layout.addWidget(title)
-        layout.addWidget(logger)
+        layout.addWidget(resizer)
         self.addLayout(layout)
 
         self.controls.logger = logger

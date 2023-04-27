@@ -31,7 +31,7 @@ from .common import Card, CardCustom, NoWheelRadioButton, NoWheelComboBox, GLine
 from ..types import ComparisonMode, DecontaminateMode, Notification, DecontaminateMode
 from ..types.gene_subset_selector import Criterion
 from .common import (
-    Card, ComparisonModeSelector, GLineEdit, GSpinBox, ObjectView, TextEditLogger)
+    Card, ComparisonModeSelector, GLineEdit, GSpinBox, ObjectView, TextEditLogger, Resizer)
 
 
 class TitleCard(Card):
@@ -161,7 +161,7 @@ class CriterionSelector(Card):
 
         radio_support = RichRadioButton('Support:', 'Go through each corresponding tree file and calculate its mean support value.')
         radio_alignment = RichRadioButton('Alignment:', 'Not implemented.')
-        radio_missing = RichRadioButton('Missng Data:', 'Not implemented.')
+        radio_missing = RichRadioButton('Missing Data:', 'Not implemented.')
         radio_ntaxa = RichRadioButton('nTaxa:', 'Not implemented.')
 
         radio_alignment.setEnabled(False)
@@ -226,11 +226,12 @@ class LoggerCard(Card):
         title.setStyleSheet("""font-size: 16px;""")
 
         logger = TextEditLogger()
+        resizer = Resizer(logger)
 
         layout = QtWidgets.QVBoxLayout()
         layout.setSpacing(16)
         layout.addWidget(title)
-        layout.addWidget(logger)
+        layout.addWidget(resizer)
         self.addLayout(layout)
 
         self.controls.logger = logger

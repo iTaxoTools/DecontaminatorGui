@@ -51,6 +51,6 @@ tasks = [
     Task('Remove-Rename', 'Delete/rename sequences', RemoveRenameModel, RemoveRenameView),
     Task('Branch Decontamination', 'Delete sequences based on tree branch length', BranchDecontaminationModel, BranchDecontaminationView),
     Task('Length Decontamination', 'Delete sequences with too much noninformation data', LengthDecontaminationModel, LengthDecontaminationView),
-    Task('Gene Subset Selector', 'Selecting subset(s) of genes through different methods.', GeneSubsetSelectorModel, GeneSubsetSelectorView),
-    Task('SCaFoSpy', 'Description coming...', ScafospyModel, ScafospyView),
+    Task('Gene Subset Selector', 'Selecting subset(s) of genes through different methods', GeneSubsetSelectorModel, GeneSubsetSelectorView),
+    Task('SCaFoSpy', 'Fuses multiple sequences from same sample', ScafospyModel, ScafospyView),
 ]

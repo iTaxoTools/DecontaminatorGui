@@ -785,3 +785,73 @@ class TextEditLogger(QtWidgets.QPlainTextEdit):
         self.scrollbarOldValue = value
         self.scrollbarAtBottom = scrollbar.value() == scrollbar.maximum()
         self.scrollbarAtTop = scrollbar.value() == 0
+
+
+class ResizeHandle(QtWidgets.QWidget):
+    resized = QtCore.Signal(object)
+    finished = QtCore.Signal(object)
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setCursor(QtGui.QCursor(QtCore.Qt.SizeVerCursor))
+        self.setSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Minimum)
+        self.starting_pos = None
+
+    def sizeHint(self):
+        return QtCore.QSize(12, 12)
+
+    def paintEvent(self, event):
+        painter = QtGui.QPainter(self)
+        painter.setRenderHint(QtGui.QPainter.Antialiasing)
+        painter.setPen(QtGui.QPen(self.palette().dark().color(), 1, QtCore.Qt.DashLine))
+        painter.drawLine(4, self.height() / 2, self.width() - 4, self.height() / 2)
+
+    def mousePressEvent(self, event):
+        self.starting_pos = event.globalPosition().toPoint().y()
+
+    def mouseMoveEvent(self, event):
+        diff = event.globalPosition().toPoint().y() - self.starting_pos
+        self.resized.emit(diff)
+
+    def mouseReleaseEvent(self, event):
+        diff = event.globalPosition().toPoint().y() - self.starting_pos
+        self.finished.emit(diff)
+        self.starting_pos = None
+
+
+class Resizer(QtWidgets.QWidget):
+    def __init__(self, widget, parent=None):
+        super().__init__(parent)
+        self.widget = widget
+
+        self.hint = widget.sizeHint()
+        self.diff_active = 0
+        self.diff_all = 0
+
+        self.handle = ResizeHandle()
+        self.handle.resized.connect(self.do_resize)
+        self.handle.finished.connect(self.finish_resize)
+
+        layout = QtWidgets.QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        layout.addWidget(self.widget)
+        layout.addWidget(self.handle)
+        self.setLayout(layout)
+
+    def sizeHint(self):
+        hint = self.hint + self.handle.sizeHint()
+        hint += QtCore.QSize(0, self.diff_active)
+        hint += QtCore.QSize(0, self.diff_all)
+        return hint
+
+    def do_resize(self, diff):
+        self.diff_active = diff
+        self.updateGeometry()
+
+    def finish_resize(self, diff):
+        self.diff_all += diff
+        self.diff_active = 0
+        self.updateGeometry()

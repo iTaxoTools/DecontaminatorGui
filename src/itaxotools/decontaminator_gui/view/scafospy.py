@@ -31,7 +31,7 @@ from .common import Card, CardCustom, NoWheelRadioButton, NoWheelComboBox, GLine
 from ..types import ComparisonMode, DecontaminateMode, Notification, DecontaminateMode
 from ..types.scafospy import Mode, Symbol
 from .common import (
-    Card, ComparisonModeSelector, GLineEdit, GSpinBox, ObjectView, TextEditLogger)
+    Card, ComparisonModeSelector, GLineEdit, GSpinBox, ObjectView, TextEditLogger, Resizer)
 
 
 class TitleCard(Card):
@@ -42,7 +42,7 @@ class TitleCard(Card):
         title.setStyleSheet("""font-size: 18px; font-weight: bold; """)
 
         description = QtWidgets.QLabel(
-            'Description coming...')
+            'Fuses multiple sequences from same sample.')
         description.setWordWrap(True)
 
         contents = QtWidgets.QVBoxLayout()
@@ -160,8 +160,8 @@ class ModeSelector(Card):
         description.setWordWrap(True)
 
         radio_ambiguity = RichRadioButton('Ambiguity:', 'In the consensus sequence \'?\' is put in place for ambiguous positions.')
-        radio_longest_sequence = RichRadioButton('Longest Sequence:', 'Use the char of the sequence with the most information (less missing data).')
-        radio_lowest_diversion = RichRadioButton('Lowest Diversion:', 'Use the most common char from ALL sequences of the alignment.')
+        radio_longest_sequence = RichRadioButton('Longest sequence:', 'Use the char of the sequence with the most information (less missing data).')
+        radio_lowest_diversion = RichRadioButton('Lowest divergence:', 'Use the most common char from ALL sequences of the alignment.')
 
         group = RadioButtonGroup()
         group.add(radio_ambiguity, Mode.Ambiguity)
@@ -225,11 +225,12 @@ class LoggerCard(Card):
         title.setStyleSheet("""font-size: 16px;""")
 
         logger = TextEditLogger()
+        resizer = Resizer(logger)
 
         layout = QtWidgets.QVBoxLayout()
         layout.setSpacing(16)
         layout.addWidget(title)
-        layout.addWidget(logger)
+        layout.addWidget(resizer)
         self.addLayout(layout)
 
         self.controls.logger = logger
