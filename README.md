@@ -3,6 +3,7 @@
 This is a fork of [TaxIGui](https://github.com/iTaxoTools/TaxIGui),
 configured for [Decontaminator](https://github.com/iTaxoTools/Decontaminator).
 
+!!Note that Decontaminator is work in progress and not yet fully tested.!!
 
 ### Windows and macOS Executables
 Download and run the standalone executables without installing Python.</br>
